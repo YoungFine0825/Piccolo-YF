@@ -25,6 +25,9 @@ namespace Piccolo
         const std::string& getDefaultWorldUrl() const;
         const std::string& getGlobalRenderingResUrl() const;
         const std::string& getGlobalParticleResUrl() const;
+        
+        float getEditorCameraSpeed();
+        float getEditorCameraSpeedScale();
 
     private:
         std::filesystem::path m_root_folder;
@@ -41,5 +44,8 @@ namespace Piccolo
         std::string m_default_world_url;
         std::string m_global_rendering_res_url;
         std::string m_global_particle_res_url;
+
+        float m_editor_camera_speed {0.00f};
+        float m_editor_camera_speed_scale {1.0f};
     };
 } // namespace Piccolo

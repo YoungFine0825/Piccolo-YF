@@ -62,6 +62,14 @@ namespace Piccolo
                     m_jolt_physics_asset_folder = m_root_folder / value;
                 }
 #endif
+                else if (name == "EditorCameraSpeed")
+                {
+                    m_editor_camera_speed = atof(value.c_str());
+                }
+                else if (name == "EditorCameraSpeedScale")
+                {
+                    m_editor_camera_speed_scale = atof(value.c_str());
+                }
             }
         }
     }
@@ -83,6 +91,9 @@ namespace Piccolo
     const std::string& ConfigManager::getGlobalRenderingResUrl() const { return m_global_rendering_res_url; }
 
     const std::string& ConfigManager::getGlobalParticleResUrl() const { return m_global_particle_res_url; }
+
+    float ConfigManager::getEditorCameraSpeed() {return m_editor_camera_speed;}
+    float ConfigManager::getEditorCameraSpeedScale() {return m_editor_camera_speed_scale;}
 
 #ifdef ENABLE_PHYSICS_DEBUG_RENDERER
     const std::filesystem::path& ConfigManager::getJoltPhysicsAssetFolder() const { return m_jolt_physics_asset_folder; }

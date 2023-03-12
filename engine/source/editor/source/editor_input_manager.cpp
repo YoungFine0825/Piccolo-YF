@@ -9,6 +9,7 @@
 #include "runtime/function/framework/world/world_manager.h"
 #include "runtime/function/global/global_context.h"
 #include "runtime/function/input/input_system.h"
+#include "runtime/resource/config_manager/config_manager.h"
 
 #include "runtime/function/render/render_camera.h"
 #include "runtime/function/render/render_system.h"
@@ -16,7 +17,12 @@
 
 namespace Piccolo
 {
-    void EditorInputManager::initialize() { registerInput(); }
+    void EditorInputManager::initialize() 
+    { 
+        registerInput(); 
+        
+        m_camera_speed = g_runtime_global_context.m_config_manager->getEditorCameraSpeed();
+    }
 
     void EditorInputManager::tick(float delta_time) { processEditorCommand(); }
 
@@ -91,6 +97,8 @@ namespace Piccolo
 
     void EditorInputManager::onKeyInEditorMode(int key, int scancode, int action, int mods)
     {
+        float scale = g_runtime_global_context.m_config_manager->getEditorCameraSpeedScale();
+        float camera_speed = g_runtime_global_context.m_config_manager->getEditorCameraSpeed();
         if (action == GLFW_PRESS)
         {
             switch (key)
@@ -124,6 +132,9 @@ namespace Piccolo
                     break;
                 case GLFW_KEY_DELETE:
                     m_editor_command |= (unsigned int)EditorCommand::delete_object;
+                    break;
+                case GLFW_KEY_LEFT_SHIFT:
+                    m_camera_speed = camera_speed * scale;
                     break;
                 default:
                     break;
@@ -165,6 +176,9 @@ namespace Piccolo
                     break;
                 case GLFW_KEY_DELETE:
                     m_editor_command &= (k_complement_control_command ^ (unsigned int)EditorCommand::delete_object);
+                    break;
+                case GLFW_KEY_LEFT_SHIFT:
+                    m_camera_speed = camera_speed;
                     break;
                 default:
                     break;
